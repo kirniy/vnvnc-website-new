@@ -35,8 +35,8 @@ files.forEach(file => {
     content = content.replace('<div id="footer"></div>', footer);
     content = content.replace('<div id="head-content"></div>', head);
     
-    // Remove components.js since we're inlining components
-    content = content.replace('<script src="js/components.js"></script>', '');
+    // Remove the components.js script since we're inlining components
+    content = content.replace(/<script src="js\/components\.js"><\/script>/g, '');
     
     // Write to dist folder
     fs.writeFileSync(path.join('dist', file), content);
