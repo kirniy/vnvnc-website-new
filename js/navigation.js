@@ -13,6 +13,55 @@ function cleanupPageEffects() {
     }
 }
 
+// Function to reinitialize animations
+function reinitializeAnimations() {
+    // Reinitialize spinning objects
+    if (typeof SpinningObject !== 'undefined') {
+        const bottle = document.getElementById('bottle');
+        const cocktail = document.getElementById('cocktail');
+        
+        if (bottle) {
+            window.bottleSpinner = new SpinningObject(bottle, -15);
+        }
+        if (cocktail) {
+            window.cocktailSpinner = new SpinningObject(cocktail, 15);
+        }
+
+        // Restart animation loop if needed
+        if ((window.bottleSpinner || window.cocktailSpinner) && !window._animationLoopRunning) {
+            window._animationLoopRunning = true;
+            function animate() {
+                if (window.bottleSpinner) window.bottleSpinner.update();
+                if (window.cocktailSpinner) window.cocktailSpinner.update();
+                if (window._animationLoopRunning) {
+                    requestAnimationFrame(animate);
+                }
+            }
+            animate();
+
+            // Reattach mouse movement handler
+            document.addEventListener('mousemove', (e) => {
+                if (window.bottleSpinner) window.bottleSpinner.applyForce(e.clientX, e.clientY);
+                if (window.cocktailSpinner) window.cocktailSpinner.applyForce(e.clientX, e.clientY);
+            });
+
+            // Update positions on scroll
+            window.addEventListener('scroll', () => {
+                if (window.bottleSpinner) {
+                    window.bottleSpinner.rect = bottle.getBoundingClientRect();
+                    window.bottleSpinner.centerX = window.bottleSpinner.rect.left + window.bottleSpinner.rect.width / 2;
+                    window.bottleSpinner.centerY = window.bottleSpinner.rect.top + window.bottleSpinner.rect.height / 2;
+                }
+                if (window.cocktailSpinner) {
+                    window.cocktailSpinner.rect = cocktail.getBoundingClientRect();
+                    window.cocktailSpinner.centerX = window.cocktailSpinner.rect.left + window.cocktailSpinner.rect.width / 2;
+                    window.cocktailSpinner.centerY = window.cocktailSpinner.rect.top + window.cocktailSpinner.rect.height / 2;
+                }
+            });
+        }
+    }
+}
+
 // Function to update page content without reloading
 function updatePage(url) {
     // Update URL without page reload
@@ -35,7 +84,7 @@ document.addEventListener('click', (e) => {
     if (link && link.href && link.href.startsWith(window.location.origin)) {
         e.preventDefault();
         const url = new URL(link.href);
-        updatePage(url.pathname);
+        loadPage(url.pathname);
     }
 });
 
@@ -47,6 +96,7 @@ async function loadPage(url) {
         
         // Cleanup previous page effects
         cleanupPageEffects();
+        window._animationLoopRunning = false;
         
         // Try to get page from cache first
         let content = pageCache.get(url);
@@ -254,72 +304,19 @@ async function loadPage(url) {
         
         // Update the page content
         mainContent.innerHTML = content;
-        
-        // For about page, initialize flipboard
-        if (url.includes('about.html')) {
-            // Initialize flipboard with a slight delay to ensure scripts are loaded
-            setTimeout(() => {
-                console.log('Starting flipboard initialization...');
-                const container = document.getElementById('rotating-text');
-                console.log('Rotating text container:', container);
-                console.log('FlipBoard class available:', typeof window.FlipBoard !== 'undefined');
-                
-                if (container && !container.querySelector('.flip-board') && window.FlipBoard) {
-                    console.log('Container found and FlipBoard available');
-                    
-                    // First, ensure we have all required variables
-                    console.log('Checking required variables:', {
-                        STATIC_SIZE: typeof window.STATIC_SIZE,
-                        phrases: typeof window.phrases,
-                        STATIC_SIZE_value: window.STATIC_SIZE,
-                        phrases_length: window.phrases?.length
-                    });
-                    
-                    if (typeof window.STATIC_SIZE === 'undefined' || !window.phrases) {
-                        console.error('Required variables for flipboard not found');
-                        return;
-                    }
 
-                    try {
-                        console.log('Creating new FlipBoard instance...');
-                        const board = new window.FlipBoard(container);
-                        console.log('FlipBoard instance created');
-                        
-                        // Initialize with empty state
-                        console.log('Initializing with empty state...');
-                        board.setText(' '.repeat(window.STATIC_SIZE)).then(() => {
-                            console.log('Empty state set, starting text rotation...');
-                            const updateText = async function() {
-                                if (!window._flipboardIndex) window._flipboardIndex = 0;
-                                console.log('Updating text to:', window.phrases[window._flipboardIndex]);
-                                await board.setText(window.phrases[window._flipboardIndex]);
-                                window._flipboardIndex = (window._flipboardIndex + 1) % window.phrases.length;
-                                setTimeout(updateText, 3000);
-                            };
-                            setTimeout(updateText, 1000);
-                        }).catch(error => {
-                            console.error('Error initializing flipboard text:', error);
-                        });
-                    } catch (error) {
-                        console.error('Error creating FlipBoard instance:', error);
-                    }
-                } else {
-                    console.error('Failed to initialize flipboard:', {
-                        containerExists: !!container,
-                        hasExistingFlipBoard: container?.querySelector('.flip-board') !== null,
-                        flipBoardClassExists: typeof window.FlipBoard !== 'undefined'
-                    });
-                }
-            }, 500);
-        }
+        // Update URL and navigation state
+        updatePage(url);
         
-        // Show content with fade effect
+        // Reinitialize animations for the new content
         setTimeout(() => {
+            reinitializeAnimations();
             mainContent.style.opacity = '1';
         }, 300);
         
     } catch (error) {
         console.error('Error loading page:', error);
+        mainContent.style.opacity = '1';
     }
 }
 
@@ -334,9 +331,7 @@ function initializePageScripts() {
 
 // Handle browser back/forward buttons
 window.addEventListener('popstate', (event) => {
-    if (event.state?.path) {
-        loadPage(event.state.path);
-    }
+    loadPage(window.location.pathname);
 });
 
 // Add smooth navigation to all internal links
@@ -360,4 +355,5 @@ document.head.insertAdjacentHTML('beforeend', `
 // Initialize page-specific scripts on first load
 document.addEventListener('DOMContentLoaded', () => {
     initializePageScripts();
+    reinitializeAnimations();
 }); 

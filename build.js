@@ -30,6 +30,8 @@ files.forEach(file => {
 const filesToCopy = [
     'styles.css',
     'js/navigation.js',
+    'js/components.js',
+    'js/about.js',
     'assets/cocktail1.png',
     'assets/disco-ball.png',
     'assets/metal-margarita-cocktail.png',
