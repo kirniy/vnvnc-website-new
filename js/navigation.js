@@ -30,13 +30,13 @@ function cleanupPageEffects() {
 }
 
 // Function to reinitialize animations
-function reinitializeAnimations() {
+async function reinitializeAnimations() {
     console.log('🎬 Reinitializing animations...');
     
     // Reinitialize wavy background for home page
     if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
         try {
-            const { WavyBackground } = window;
+            const { WavyBackground } = await import('./wavy-background.js');
             if (WavyBackground) {
                 const options = {
                     colors: ["#38bdf8", "#818cf8", "#c084fc", "#e879f9", "#22d3ee"],
@@ -50,6 +50,7 @@ function reinitializeAnimations() {
                 window.wavyBackground = new WavyBackground(options);
                 const container = document.getElementById('wavy-background-container');
                 if (container) {
+                    container.innerHTML = ''; // Clear any existing canvas
                     container.appendChild(window.wavyBackground.canvas);
                 }
             }
@@ -215,21 +216,19 @@ async function loadPage(url) {
         updatePage(url);
         
         // Reinitialize animations for the new content
-        console.log('  - Starting reinitialization timeout');
-        setTimeout(() => {
-            // Initialize flipboard first if on about page
-            if (url.includes('about.html') && typeof initializeFlipboard === 'function') {
-                console.log('  - Initializing flipboard');
-                initializeFlipboard();
-            }
-            
-            // Then initialize animations
-            reinitializeAnimations();
-            mainContent.style.opacity = '1';
-            
-            console.log('✅ Page load complete');
-            window._isLoading = false;
-        }, 300);
+        console.log('  - Starting reinitialization');
+        // Initialize flipboard first if on about page
+        if (url.includes('about.html') && typeof initializeFlipboard === 'function') {
+            console.log('  - Initializing flipboard');
+            initializeFlipboard();
+        }
+        
+        // Then initialize animations
+        await reinitializeAnimations();
+        mainContent.style.opacity = '1';
+        
+        console.log('✅ Page load complete');
+        window._isLoading = false;
         
     } catch (error) {
         console.error('❌ Error loading page:', error);
