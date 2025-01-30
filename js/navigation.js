@@ -154,8 +154,24 @@ async function loadPage(url) {
             const parser = new DOMParser();
             doc = parser.parseFromString(html, 'text/html');
             
-            // Get the main content
+            // Get the main content and components
             content = doc.querySelector('main').innerHTML;
+            const newNavbar = doc.querySelector('nav');
+            const newFooter = doc.querySelector('#footer').innerHTML;
+            
+            // Update navbar and footer if they exist
+            if (newNavbar) {
+                const currentNavbar = document.querySelector('nav');
+                if (currentNavbar) {
+                    currentNavbar.outerHTML = newNavbar.outerHTML;
+                }
+            }
+            if (newFooter) {
+                const footerElement = document.querySelector('#footer');
+                if (footerElement) {
+                    footerElement.innerHTML = newFooter;
+                }
+            }
             
             // Cache the content and document
             pageCache.set(url, { content, doc });
@@ -163,6 +179,23 @@ async function loadPage(url) {
             console.log('  - Using cached page content');
             doc = content.doc;
             content = content.content;
+            
+            // Update components from cache
+            const newNavbar = doc.querySelector('nav');
+            const newFooter = doc.querySelector('#footer').innerHTML;
+            
+            if (newNavbar) {
+                const currentNavbar = document.querySelector('nav');
+                if (currentNavbar) {
+                    currentNavbar.outerHTML = newNavbar.outerHTML;
+                }
+            }
+            if (newFooter) {
+                const footerElement = document.querySelector('#footer');
+                if (footerElement) {
+                    footerElement.innerHTML = newFooter;
+                }
+            }
         }
 
         // For about page, setup background and scripts
