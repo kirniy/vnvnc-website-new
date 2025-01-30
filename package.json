@@ -1,0 +1,16 @@
+{
+  "name": "waves-vnvnc",
+  "version": "1.0.0",
+  "description": "Modern, interactive website for VNVNC club in Saint Petersburg.",
+  "main": "build.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "simplex-noise": "^4.0.3"
+  }
+}

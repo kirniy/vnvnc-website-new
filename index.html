@@ -54,37 +54,36 @@
 <body class="bg-black text-white min-h-screen relative overflow-x-hidden">
     <!-- Background -->
     <div class="fixed inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(140,119,245,0.05)_0%,transparent_70%)]"></div>
+        <!-- Primary background with ambilight -->
+        <div class="absolute inset-0">
+            <!-- Base gradient -->
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(140,119,245,0.05)_0%,transparent_70%)]"></div>
+        </div>
     </div>
 
     <!-- Navbar -->
-    <div id="navbar"></div>
+    <div id="navbar" class="relative z-50"></div>
 
     <!-- Main Content -->
     <main class="min-h-screen relative overflow-hidden pt-20">
-        <div class="container mx-auto px-4">
+        <!-- Wavy background container -->
+        <div id="wavy-background-container" class="fixed inset-0 h-screen flex flex-col items-center justify-center overflow-hidden">
+            <!-- Canvas will be inserted here -->
+        </div>
+        
+        <div class="container mx-auto px-4 relative" style="z-index: 2;">
             <!-- Main Headline -->
             <div class="pt-32 pb-16 text-center relative">
-                <!-- Hero background glow -->
-                <div class="absolute inset-0">
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180%] h-[180%]
-                        bg-[radial-gradient(ellipse_at_center,rgba(140,119,245,0.15)_0%,rgba(140,119,245,0.1)_25%,rgba(140,119,245,0.05)_50%,transparent_80%)]
-                        mix-blend-screen"></div>
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%]
-                        bg-[radial-gradient(ellipse_at_center,rgba(140,119,245,0.3)_0%,rgba(140,119,245,0.15)_30%,transparent_60%)]
-                        blur-[64px] mix-blend-screen"></div>
-                </div>
-
                 <h1 class="text-5xl md:text-7xl font-bold mb-6 text-center tracking-tight relative z-10 whitespace-nowrap">
                     Пространство твоей 
-                    <span class="text-primary-400 italic relative inline-block min-w-[280px] text-left">
+                    <span class="text-[#a3a740] italic relative inline-block min-w-[280px] text-left">
                         <span class="typing-word opacity-0 transition-all duration-[400ms] ease-out"></span>
                     </span>
                 </h1>
 
                 <!-- Subheadline -->
                 <p class="text-lg text-white/80 mb-8 tracking-wide font-light">
-                    Сердце <span class="text-primary-400/90 font-medium">Конюшенной</span> площади
+                    Сердце <span class="text-[#a3a740] font-medium">Конюшенной</span> площади
                 </p>
 
                 <!-- CTA Button -->
@@ -298,6 +297,36 @@
     <!-- Scripts -->
     <script src="js/components.js"></script>
     <script src="js/navigation.js"></script>
+    <script type="module">
+        try {
+            const { WavyBackground } = await import('./js/wavy-background.js');
+            
+            // Initialize with original parameters
+            const options = {
+                colors: [
+                    "#38bdf8",
+                    "#818cf8",
+                    "#c084fc",
+                    "#e879f9",
+                    "#22d3ee",
+                ],
+                waveWidth: 50,
+                backgroundFill: "black",
+                blur: 10,
+                speed: "fast",
+                waveOpacity: 0.5
+            };
+            
+            window.wavyBackground = new WavyBackground(options);
+            
+            const container = document.getElementById('wavy-background-container');
+            if (container) {
+                container.appendChild(window.wavyBackground.canvas);
+            }
+        } catch (error) {
+            console.error('Error initializing wavy background:', error);
+        }
+    </script>
     <script>
         // Physics-based spinning animation
         class SpinningObject {
@@ -421,9 +450,9 @@
         let currentWordIndex = 0;
         let isDeleting = false;
         let currentText = '';
-        let typingSpeed = 140; // Faster typing, but still smooth
-        let delayAfterWord = 6000; // Even longer display time
-        let delayBeforeDelete = 4500; // Longer pause before deletion
+        let typingSpeed = 100;      // Slightly faster typing
+        let delayAfterWord = 2000;  // Much shorter display time
+        let delayBeforeDelete = 1500; // Shorter pause before deletion
 
         function typeEffect() {
             const wordElement = document.querySelector('.typing-word');
@@ -431,10 +460,10 @@
 
             if (isDeleting) {
                 currentText = currentWord.substring(0, currentText.length - 1);
-                typingSpeed = 100; // Keep deletion speed
+                typingSpeed = 50;  // Faster deletion
             } else {
                 currentText = currentWord.substring(0, currentText.length + 1);
-                typingSpeed = 140; // Faster, modern typing speed
+                typingSpeed = 100; // Faster typing
             }
 
             if (wordElement) {
@@ -451,18 +480,18 @@
                 let nextStep;
 
                 if (!isDeleting && currentText === currentWord) {
-                    // Word is complete - longer display time
+                    // Word is complete
                     nextStep = () => {
                         isDeleting = true;
                         typingSpeed = delayBeforeDelete;
                     };
-                    typingSpeed = delayAfterWord; // Much longer pause when word is complete
+                    typingSpeed = delayAfterWord;
                 } else if (isDeleting && currentText === '') {
-                    // Word is deleted
+                    // Word is deleted - almost no delay before next word
                     isDeleting = false;
                     currentWordIndex = (currentWordIndex + 1) % words.length;
-                    typingSpeed = 1800; // Slightly longer pause before next word
-                    wordElement.style.transform = 'scale(1)'; // Reset scale
+                    typingSpeed = 100; // Very short pause before next word
+                    wordElement.style.transform = 'scale(1)';
                 }
 
                 setTimeout(() => {

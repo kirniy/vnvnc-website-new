@@ -9,6 +9,22 @@ const head = fs.readFileSync(path.join(__dirname, 'components', 'head.html'), 'u
 // Read the main HTML files
 const files = ['index.html', 'about.html', 'events.html'];
 
+// Ensure dist directory exists
+if (!fs.existsSync('dist')) {
+    fs.mkdirSync('dist');
+}
+
+// Create node_modules in dist for simplex-noise
+if (!fs.existsSync('dist/node_modules')) {
+    fs.mkdirSync('dist/node_modules', { recursive: true });
+}
+
+// Copy simplex-noise module
+const simplexNoisePath = path.join('node_modules', 'simplex-noise');
+if (fs.existsSync(simplexNoisePath)) {
+    fs.cpSync(simplexNoisePath, path.join('dist', 'node_modules', 'simplex-noise'), { recursive: true });
+}
+
 files.forEach(file => {
     if (!fs.existsSync(file)) return;
     
@@ -19,10 +35,10 @@ files.forEach(file => {
     content = content.replace('<div id="footer"></div>', footer);
     content = content.replace('<div id="head-content"></div>', head);
     
+    // Remove components.js since we're inlining components
+    content = content.replace('<script src="js/components.js"></script>', '');
+    
     // Write to dist folder
-    if (!fs.existsSync('dist')) {
-        fs.mkdirSync('dist');
-    }
     fs.writeFileSync(path.join('dist', file), content);
 });
 
@@ -30,8 +46,9 @@ files.forEach(file => {
 const filesToCopy = [
     'styles.css',
     'js/navigation.js',
-    'js/components.js',
     'js/about.js',
+    'js/wavy-background.js',
+    'js/spinning.js',
     'assets/cocktail1.png',
     'assets/disco-ball.png',
     'assets/metal-margarita-cocktail.png',
@@ -49,4 +66,11 @@ filesToCopy.forEach(file => {
     }
     
     fs.copyFileSync(file, targetPath);
+});
+
+// Copy package.json and package-lock.json for Netlify
+['package.json', 'package-lock.json'].forEach(file => {
+    if (fs.existsSync(file)) {
+        fs.copyFileSync(file, path.join('dist', file));
+    }
 }); 
