@@ -32,30 +32,46 @@ function cleanupPageEffects() {
 // Function to reinitialize animations
 function reinitializeAnimations() {
     console.log('🎬 Reinitializing animations...');
-    console.log('  - SpinningObject available:', typeof SpinningObject !== 'undefined');
+    
+    // Reinitialize wavy background for home page
+    if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+        try {
+            const { WavyBackground } = window;
+            if (WavyBackground) {
+                const options = {
+                    colors: ["#38bdf8", "#818cf8", "#c084fc", "#e879f9", "#22d3ee"],
+                    waveWidth: 50,
+                    backgroundFill: "black",
+                    blur: 10,
+                    speed: "fast",
+                    waveOpacity: 0.5
+                };
+                
+                window.wavyBackground = new WavyBackground(options);
+                const container = document.getElementById('wavy-background-container');
+                if (container) {
+                    container.appendChild(window.wavyBackground.canvas);
+                }
+            }
+        } catch (error) {
+            console.error('Error initializing wavy background:', error);
+        }
+    }
     
     // Reinitialize spinning objects
     if (typeof SpinningObject !== 'undefined') {
         const bottle = document.getElementById('bottle');
         const cocktail = document.getElementById('cocktail');
         
-        console.log('  - Found elements:', { 
-            bottle: !!bottle, 
-            cocktail: !!cocktail 
-        });
-        
         if (bottle) {
-            console.log('  - Creating bottle spinner');
             window.bottleSpinner = new SpinningObject(bottle, -15);
         }
         if (cocktail) {
-            console.log('  - Creating cocktail spinner');
             window.cocktailSpinner = new SpinningObject(cocktail, 15);
         }
 
         // Restart animation loop if needed
         if ((window.bottleSpinner || window.cocktailSpinner) && !window._animationLoopRunning) {
-            console.log('  - Starting animation loop');
             window._animationLoopRunning = true;
             
             function animate() {
@@ -68,14 +84,12 @@ function reinitializeAnimations() {
             animate();
 
             // Reattach mouse movement handler
-            console.log('  - Attaching mouse movement handler');
             document.addEventListener('mousemove', (e) => {
                 if (window.bottleSpinner) window.bottleSpinner.applyForce(e.clientX, e.clientY);
                 if (window.cocktailSpinner) window.cocktailSpinner.applyForce(e.clientX, e.clientY);
             });
 
             // Update positions on scroll
-            console.log('  - Attaching scroll handler');
             window.addEventListener('scroll', () => {
                 if (window.bottleSpinner && bottle) {
                     window.bottleSpinner.rect = bottle.getBoundingClientRect();
@@ -90,7 +104,6 @@ function reinitializeAnimations() {
             });
         }
     }
-    console.log('✅ Animation initialization complete');
 }
 
 // Function to update page content without reloading
@@ -102,7 +115,8 @@ function updatePage(url) {
     // Update active nav link
     const navLinks = document.querySelectorAll('nav a');
     navLinks.forEach(link => {
-        if (link.getAttribute('href') === url) {
+        const href = link.getAttribute('href');
+        if (href === url || (url === '/' && href === '/index.html')) {
             link.classList.add('active');
         } else {
             link.classList.remove('active');
@@ -110,14 +124,20 @@ function updatePage(url) {
     });
 }
 
-// Handle navigation
+// Single navigation event handler
 document.addEventListener('click', (e) => {
     const link = e.target.closest('a');
     if (link && link.href && link.href.startsWith(window.location.origin)) {
-        console.log('🔗 Navigation click detected:', link.href);
         e.preventDefault();
         const url = new URL(link.href);
-        loadPage(url.pathname);
+        let pathname = url.pathname;
+        
+        // Handle root path
+        if (pathname === '/index.html') {
+            pathname = '/';
+        }
+        
+        loadPage(pathname);
     }
 });
 
@@ -154,24 +174,8 @@ async function loadPage(url) {
             const parser = new DOMParser();
             doc = parser.parseFromString(html, 'text/html');
             
-            // Get the main content and components
+            // Get the main content
             content = doc.querySelector('main').innerHTML;
-            const newNavbar = doc.querySelector('nav');
-            const newFooter = doc.querySelector('#footer').innerHTML;
-            
-            // Update navbar and footer if they exist
-            if (newNavbar) {
-                const currentNavbar = document.querySelector('nav');
-                if (currentNavbar) {
-                    currentNavbar.outerHTML = newNavbar.outerHTML;
-                }
-            }
-            if (newFooter) {
-                const footerElement = document.querySelector('#footer');
-                if (footerElement) {
-                    footerElement.innerHTML = newFooter;
-                }
-            }
             
             // Cache the content and document
             pageCache.set(url, { content, doc });
@@ -179,23 +183,6 @@ async function loadPage(url) {
             console.log('  - Using cached page content');
             doc = content.doc;
             content = content.content;
-            
-            // Update components from cache
-            const newNavbar = doc.querySelector('nav');
-            const newFooter = doc.querySelector('#footer').innerHTML;
-            
-            if (newNavbar) {
-                const currentNavbar = document.querySelector('nav');
-                if (currentNavbar) {
-                    currentNavbar.outerHTML = newNavbar.outerHTML;
-                }
-            }
-            if (newFooter) {
-                const footerElement = document.querySelector('#footer');
-                if (footerElement) {
-                    footerElement.innerHTML = newFooter;
-                }
-            }
         }
 
         // For about page, setup background and scripts
@@ -217,16 +204,6 @@ async function loadPage(url) {
                 
                 pageStyles.id = 'page-specific-styles';
                 document.head.appendChild(pageStyles.cloneNode(true));
-            }
-            
-            // Clear any existing flipboard intervals
-            if (window._flipboardInterval) {
-                clearInterval(window._flipboardInterval);
-                window._flipboardInterval = null;
-            }
-            if (window._flipboardTimeout) {
-                clearTimeout(window._flipboardTimeout);
-                window._flipboardTimeout = null;
             }
         }
         
@@ -261,34 +238,10 @@ async function loadPage(url) {
     }
 }
 
-// Function to initialize page-specific scripts
-function initializePageScripts() {
-    console.log('🔧 Initializing page-specific scripts');
-    const currentPath = window.location.pathname;
-    
-    // About page initialization
-    if (currentPath.includes('about.html') && typeof initializeFlipboard === 'function') {
-        console.log('  - Found about page, initializing flipboard');
-        initializeFlipboard();
-    }
-    
-    // Initialize animations for all pages
-    reinitializeAnimations();
-}
-
 // Handle browser back/forward buttons
 window.addEventListener('popstate', (event) => {
     console.log('◀️ Browser navigation detected');
     loadPage(window.location.pathname);
-});
-
-// Add smooth navigation to all internal links
-document.addEventListener('click', (event) => {
-    const link = event.target.closest('a');
-    if (link && link.href.startsWith(window.location.origin)) {
-        event.preventDefault();
-        loadPage(link.getAttribute('href'));
-    }
 });
 
 // Add transition styles
