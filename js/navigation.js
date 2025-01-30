@@ -13,6 +13,32 @@ function cleanupPageEffects() {
     }
 }
 
+// Function to update page content without reloading
+function updatePage(url) {
+    // Update URL without page reload
+    window.history.pushState({}, '', url);
+    
+    // Update active nav link
+    const navLinks = document.querySelectorAll('nav a');
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === url) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+}
+
+// Handle navigation
+document.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (link && link.href && link.href.startsWith(window.location.origin)) {
+        e.preventDefault();
+        const url = new URL(link.href);
+        updatePage(url.pathname);
+    }
+});
+
 // Function to load page content
 async function loadPage(url) {
     try {
@@ -287,37 +313,14 @@ async function loadPage(url) {
             }, 500);
         }
         
-        // Update URL without page reload
-        history.pushState({ path: url }, '', url);
-        
         // Show content with fade effect
         setTimeout(() => {
             mainContent.style.opacity = '1';
         }, 300);
         
-        // Update active state in navigation
-        updateActiveNavLink(url);
-        
     } catch (error) {
         console.error('Error loading page:', error);
     }
-}
-
-// Function to update active navigation link
-function updateActiveNavLink(url) {
-    const navLinks = document.querySelectorAll('.navbar-link');
-    navLinks.forEach(link => {
-        const isActive = link.getAttribute('href') === url;
-        link.classList.toggle('text-white', isActive);
-        link.classList.toggle('bg-[#EA8458]/20', isActive);
-        link.classList.toggle('text-white/90', !isActive);
-        
-        const underline = link.querySelector('span:last-child');
-        if (underline) {
-            underline.classList.toggle('scale-x-0', !isActive);
-            underline.classList.toggle('scale-x-100', isActive);
-        }
-    });
 }
 
 // Function to initialize page-specific scripts
