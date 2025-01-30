@@ -31,9 +31,9 @@ files.forEach(file => {
     let content = fs.readFileSync(file, 'utf8');
     
     // Replace component placeholders with actual content
-    content = content.replace('<div id="navbar"></div>', navbar);
-    content = content.replace('<div id="footer"></div>', footer);
-    content = content.replace('<div id="head-content"></div>', head);
+    content = content.replace(/<div id="navbar"[^>]*>.*?<\/div>/s, navbar);
+    content = content.replace(/<div id="footer"[^>]*>.*?<\/div>/s, footer);
+    content = content.replace(/<div id="head-content"[^>]*>.*?<\/div>/s, head);
     
     // Remove the components.js script since we're inlining components
     content = content.replace(/<script src="js\/components\.js"><\/script>/g, '');
