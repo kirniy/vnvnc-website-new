@@ -38,6 +38,15 @@
         .disco-ball-hover:hover {
             animation-play-state: running !important;
         }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .typing-cursor {
+            animation: blink 1s step-end infinite;
+            margin-left: 2px;
+        }
     </style>
     <!-- Include head component -->
     <div id="head-content"></div>
@@ -66,8 +75,11 @@
                         blur-[64px] mix-blend-screen"></div>
                 </div>
 
-                <h1 class="text-5xl md:text-7xl font-bold mb-6 text-center tracking-tight relative z-10">
-                    Пространство твоей <span class="text-primary-400 italic">свободы</span>
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 text-center tracking-tight relative z-10 whitespace-nowrap">
+                    Пространство твоей 
+                    <span class="text-primary-400 italic relative inline-block min-w-[280px] text-left">
+                        <span class="typing-word opacity-0 transition-all duration-[400ms] ease-out"></span>
+                    </span>
                 </h1>
 
                 <!-- Subheadline -->
@@ -403,6 +415,65 @@
             cocktail.centerX = cocktail.rect.left + cocktail.rect.width / 2;
             cocktail.centerY = cocktail.rect.top + cocktail.rect.height / 2;
         });
+
+        // Typing effect
+        const words = ['свободы', 'музыки', 'тусовки', 'ночи', 'энергии', 'истории'];
+        let currentWordIndex = 0;
+        let isDeleting = false;
+        let currentText = '';
+        let typingSpeed = 140; // Faster typing, but still smooth
+        let delayAfterWord = 6000; // Even longer display time
+        let delayBeforeDelete = 4500; // Longer pause before deletion
+
+        function typeEffect() {
+            const wordElement = document.querySelector('.typing-word');
+            const currentWord = words[currentWordIndex];
+
+            if (isDeleting) {
+                currentText = currentWord.substring(0, currentText.length - 1);
+                typingSpeed = 100; // Keep deletion speed
+            } else {
+                currentText = currentWord.substring(0, currentText.length + 1);
+                typingSpeed = 140; // Faster, modern typing speed
+            }
+
+            if (wordElement) {
+                wordElement.textContent = currentText;
+                wordElement.style.opacity = '1';
+                
+                // Add a subtle scale effect during typing
+                if (!isDeleting && currentText.length > 0) {
+                    wordElement.style.transform = `scale(${1 + Math.min(0.02, currentText.length * 0.002)})`;
+                } else {
+                    wordElement.style.transform = 'scale(1)';
+                }
+
+                let nextStep;
+
+                if (!isDeleting && currentText === currentWord) {
+                    // Word is complete - longer display time
+                    nextStep = () => {
+                        isDeleting = true;
+                        typingSpeed = delayBeforeDelete;
+                    };
+                    typingSpeed = delayAfterWord; // Much longer pause when word is complete
+                } else if (isDeleting && currentText === '') {
+                    // Word is deleted
+                    isDeleting = false;
+                    currentWordIndex = (currentWordIndex + 1) % words.length;
+                    typingSpeed = 1800; // Slightly longer pause before next word
+                    wordElement.style.transform = 'scale(1)'; // Reset scale
+                }
+
+                setTimeout(() => {
+                    if (nextStep) nextStep();
+                    typeEffect();
+                }, typingSpeed);
+            }
+        }
+
+        // Start the typing effect
+        typeEffect();
     </script>
   </body>
 </html>
