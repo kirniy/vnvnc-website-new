@@ -1,0 +1,395 @@
+/* Glass effects */
+.glass-gradient {
+    background: linear-gradient(
+        112.4deg,
+        rgba(234, 132, 88, 0.25) 0%,
+        rgba(234, 132, 88, 0.15) 50.52%,
+        rgba(234, 132, 88, 0.1) 100%
+    );
+}
+
+.glass-gradient-primary {
+    background: linear-gradient(
+        112.4deg,
+        rgba(140, 119, 245, 0.25) 0%,
+        rgba(140, 119, 245, 0.15) 50.52%,
+        rgba(140, 119, 245, 0.1) 100%
+    );
+}
+
+.shadow-glass-accent {
+    box-shadow: 
+        0 8px 32px rgba(234, 132, 88, 0.3),
+        inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.shadow-glass-primary {
+    box-shadow: 
+        0 8px 32px rgba(140, 119, 245, 0.3),
+        inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.shadow-inner-white {
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Text effects */
+.drop-shadow-text {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.drop-shadow-neon {
+    filter: drop-shadow(0 0 8px rgba(140, 119, 245, 0.3));
+}
+
+/* Scale utilities */
+.hover\:scale-102:hover {
+    transform: scale(1.02);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(140, 119, 245, 0.3);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(140, 119, 245, 0.5);
+}
+
+/* Event card styles */
+.event-card {
+    position: relative;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur-sm;
+    transition: all 0.5s ease;
+}
+
+.event-card.animate {
+    animation: cardHover 9s infinite;
+    animation-play-state: running;
+}
+
+.event-card.animate:nth-child(2) {
+    animation-delay: 3s;
+}
+
+.event-card.animate:nth-child(3) {
+    animation-delay: 6s;
+}
+
+.event-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(140, 119, 245, 0.3);
+}
+
+.event-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, 
+        rgba(140, 119, 245, 0.1),
+        rgba(140, 119, 245, 0.05) 10%,
+        rgba(140, 119, 245, 0) 50%
+    );
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.event-card:hover::before,
+.event-card.animate::before {
+    opacity: 1;
+}
+
+.event-card img {
+    transition: transform 0.7s ease;
+}
+
+.event-card:hover img {
+    transform: scale(1.1);
+}
+
+.event-card h3 {
+    transition: color 0.3s ease;
+}
+
+.event-card:hover h3 {
+    color: rgb(140, 119, 245);
+}
+
+.event-card .btn-primary {
+    position: relative;
+    overflow: hidden;
+}
+
+.event-card .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        112.4deg,
+        rgba(140, 119, 245, 0.2) 0%,
+        rgba(140, 119, 245, 0.1) 50.52%,
+        rgba(140, 119, 245, 0.05) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.event-card .btn-primary:hover::before {
+    opacity: 1;
+}
+
+.event-card .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(to bottom,
+        rgba(255, 255, 255, 0.1),
+        transparent 50%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.event-card .btn-primary:hover::after {
+    opacity: 0.5;
+}
+
+/* Wave animation */
+.wave {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(140, 119, 245, 0.5), transparent);
+    animation: wave 3s linear infinite;
+}
+
+@keyframes wave {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Navbar styles */
+.navbar-link {
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(234, 132, 88, 0.5), transparent);
+    transform: scaleX(0);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar-link:hover::after {
+    transform: scaleX(1);
+}
+
+.navbar-link:hover {
+    transform: translateY(-2px) scale(1.05);
+    text-shadow: 0 0 15px rgba(234, 132, 88, 0.5);
+}
+
+/* Button effects */
+.btn-primary {
+    position: relative;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        112.4deg,
+        rgba(140, 119, 245, 0.25) 0%,
+        rgba(140, 119, 245, 0.15) 50.52%,
+        rgba(140, 119, 245, 0.1) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary:hover::before {
+    opacity: 1;
+}
+
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.2),
+        transparent 50%
+    );
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.btn-primary:hover::after {
+    opacity: 1;
+}
+
+/* Reservation button specific styles */
+.btn-reserve {
+    background: linear-gradient(
+        112.4deg,
+        rgba(234, 132, 88, 0.25) 0%,
+        rgba(234, 132, 88, 0.15) 50.52%,
+        rgba(234, 132, 88, 0.1) 100%
+    );
+    border: 1px solid rgba(234, 132, 88, 0.3);
+    box-shadow: 
+        0 8px 32px rgba(234, 132, 88, 0.3),
+        inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.btn-reserve:hover {
+    border-color: rgba(234, 132, 88, 0.5);
+    background: linear-gradient(
+        112.4deg,
+        rgba(234, 132, 88, 0.35) 0%,
+        rgba(234, 132, 88, 0.25) 50.52%,
+        rgba(234, 132, 88, 0.2) 100%
+    );
+    box-shadow: 
+        0 12px 40px rgba(234, 132, 88, 0.4),
+        inset 0 1px 1px rgba(255, 255, 255, 0.25);
+}
+
+/* Background waves */
+.bg-waves {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: screen;
+}
+
+.wave-line {
+    position: absolute;
+    width: 200%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent 0%,
+        rgba(59, 130, 246, 0.2) 15%,
+        rgba(59, 130, 246, 0.3) 30%,
+        rgba(236, 72, 153, 0.3) 50%,
+        rgba(236, 72, 153, 0.2) 70%,
+        transparent 100%
+    );
+    animation: waveLine 8s linear infinite;
+    transform-origin: 0 50%;
+}
+
+.wave-line:nth-child(2) {
+    top: 30%;
+    animation-delay: -2s;
+    opacity: 0.3;
+}
+
+.wave-line:nth-child(3) {
+    top: 60%;
+    animation-delay: -4s;
+    opacity: 0.4;
+}
+
+.wave-line:nth-child(4) {
+    top: 80%;
+    animation-delay: -6s;
+    opacity: 0.2;
+}
+
+@keyframes waveLine {
+    0% {
+        transform: translateX(-50%) rotate(-5deg);
+    }
+    100% {
+        transform: translateX(0%) rotate(5deg);
+    }
+}
+
+/* Logo animation */
+.logo-hover {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo-hover:hover {
+    transform: scale(1.1);
+    animation: logoWiggle 1s ease-in-out infinite;
+}
+
+@keyframes logoWiggle {
+    0%, 100% {
+        transform: scale(1.1) rotate(-3deg);
+    }
+    50% {
+        transform: scale(1.1) rotate(3deg);
+    }
+}
+
+/* Hero section effects */
+.hero-text-glow {
+    text-shadow: 
+        0 0 30px rgba(140, 119, 245, 0.3),
+        0 0 60px rgba(140, 119, 245, 0.2),
+        0 0 90px rgba(140, 119, 245, 0.1);
+}
+
+.hero-gradient-text {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 255, 255, 0.7) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Event card hover animation */
+@keyframes cardHover {
+    0%, 100% {
+        transform: translateY(0);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+    3.33%, 30% {
+        transform: translateY(-4px);
+        border-color: rgba(140, 119, 245, 0.3);
+    }
+    3.33%, 30% {
+        background: linear-gradient(to bottom, 
+            rgba(140, 119, 245, 0.1),
+            rgba(140, 119, 245, 0.05) 10%,
+            rgba(140, 119, 245, 0) 50%
+        );
+    }
+} 

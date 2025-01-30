@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Афиша - VNVNC</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.1/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            400: 'rgb(140, 119, 245)'
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Include head component -->
+    <div id="head-content"></div>
+</head>
+<body class="bg-black text-white min-h-screen relative overflow-x-hidden">
+    <!-- Background -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(140,119,245,0.05)_0%,transparent_70%)]"></div>
+    </div>
+
+    <!-- Navbar -->
+    <div id="navbar"></div>
+
+    <!-- Main Content -->
+    <main class="min-h-screen relative overflow-hidden pt-20">
+        <div class="container mx-auto px-4">
+            <!-- Upcoming Events Section -->
+            <section class="mb-24">
+                <h1 class="text-4xl font-bold text-center mb-4">
+                    <span class="relative inline-block">
+                        Грядущие события
+                        <div class="absolute -inset-x-8 -bottom-4 h-px bg-gradient-to-r from-transparent via-primary-400 to-transparent opacity-70"></div>
+                    </span>
+                </h1>
+
+                <!-- Filters -->
+                <div class="flex justify-center gap-4 mb-12">
+                    <button class="px-6 py-2 rounded-lg text-white text-sm font-medium 
+                        backdrop-blur-sm border border-primary-400/30 hover:border-primary-400/50 
+                        transition-all duration-300 bg-primary-400/10">
+                        Все события
+                    </button>
+                    <button class="px-6 py-2 rounded-lg text-white/60 text-sm font-medium 
+                        backdrop-blur-sm border border-white/10 hover:border-primary-400/30 
+                        transition-all duration-300 hover:bg-primary-400/10">
+                        Этот месяц
+                    </button>
+                    <button class="px-6 py-2 rounded-lg text-white/60 text-sm font-medium 
+                        backdrop-blur-sm border border-white/10 hover:border-primary-400/30 
+                        transition-all duration-300 hover:bg-primary-400/10">
+                        Следующий месяц
+                    </button>
+                </div>
+
+                <!-- Events Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Event cards will be dynamically loaded here -->
+                </div>
+
+                <!-- Load More Button -->
+                <div class="text-center mt-12">
+                    <button class="group relative hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
+                        <div class="absolute -inset-1 bg-primary-400/30 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                        <div class="relative px-8 py-3 rounded-xl text-white font-medium
+                            backdrop-blur-sm border border-primary-400/30 shadow-glass-primary
+                            group-hover:border-primary-400/50 transition-all duration-300">
+                            <div class="absolute inset-0 rounded-xl glass-gradient-primary opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+                            <div class="absolute inset-0 rounded-xl bg-primary-400/10"></div>
+                            <span class="relative">Загрузить еще</span>
+                        </div>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Past Events Timeline -->
+            <section class="mb-24">
+                <h2 class="text-4xl font-bold text-center mb-16">
+                    <span class="relative inline-block">
+                        Архив вечеринок
+                        <div class="absolute -inset-x-8 -bottom-4 h-px bg-gradient-to-r from-transparent via-primary-400 to-transparent opacity-70"></div>
+                    </span>
+                </h2>
+
+                <!-- Timeline View -->
+                <div class="relative">
+                    <!-- Year markers -->
+                    <div class="absolute left-0 top-0 bottom-0 w-24 border-r border-white/10">
+                        <div class="sticky top-24 text-2xl font-bold text-primary-400">2024</div>
+                    </div>
+
+                    <!-- Timeline content -->
+                    <div class="ml-32">
+                        <!-- Month section -->
+                        <div class="mb-16">
+                            <h3 class="text-xl font-bold mb-8 text-white/80">Январь</h3>
+                            <div class="space-y-8">
+                                <!-- Timeline items will be dynamically loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Load More Button -->
+                <div class="text-center mt-12">
+                    <button class="group relative hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
+                        <div class="absolute -inset-1 bg-primary-400/30 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                        <div class="relative px-8 py-3 rounded-xl text-white font-medium
+                            backdrop-blur-sm border border-primary-400/30 shadow-glass-primary
+                            group-hover:border-primary-400/50 transition-all duration-300">
+                            <div class="absolute inset-0 rounded-xl glass-gradient-primary opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+                            <div class="absolute inset-0 rounded-xl bg-primary-400/10"></div>
+                            <span class="relative">Показать больше</span>
+                        </div>
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <!-- Scripts -->
+    <script src="js/components.js"></script>
+    <script>
+        // Load head content
+        fetch('/components/head.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('head-content').innerHTML = html;
+            });
+
+        // Event loading and timeline functionality will be implemented here
+    </script>
+</body>
+</html> 

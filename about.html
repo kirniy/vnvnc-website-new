@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О нас - VNVNC</title>
+    <!-- Include head component -->
+    <div id="head-content"></div>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.1/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            400: 'rgb(140, 119, 245)'
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 12s ease-in-out infinite',
+                        'glow': 'glow 8s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'rotate(-1.5deg)' },
+                            '50%': { transform: 'rotate(1.5deg)' },
+                        },
+                        glow: {
+                            '0%, 100%': { filter: 'drop-shadow(0 0 15px rgba(140, 119, 245, 0.5))' },
+                            '33%': { filter: 'drop-shadow(0 0 15px rgba(234, 132, 88, 0.5))' },
+                            '66%': { filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.5))' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-black text-white min-h-screen relative overflow-x-hidden">
+    <!-- Background -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <!-- Primary background with ambilight -->
+        <div class="absolute inset-0">
+            <!-- Base gradient -->
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(140,119,245,0.05)_0%,transparent_70%)]"></div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <div id="navbar"></div>
+
+    <!-- Main Content -->
+    <main class="min-h-screen relative overflow-hidden pt-20">
+        <div class="container mx-auto px-4">
+            <!-- Rotating Text Section -->
+            <div class="text-center mb-20 mt-16">
+                <h1 class="text-3xl md:text-5xl font-bold mb-6 tracking-tight">
+                    Виновница – это
+                </h1>
+                <div class="flex justify-center mt-8">
+                    <span id="rotating-text" class="text-primary-400 text-2xl md:text-4xl"></span>
+                </div>
+            </div>
+
+            <!-- Video Section -->
+            <div class="relative rounded-2xl overflow-hidden mb-16 max-w-5xl mx-auto">
+                <!-- Floating Logo -->
+                <div class="absolute left-1/2 top-[calc(50%-0.5rem)] -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none">
+                    <div class="w-[218px] animate-float opacity-60 logo-glow">
+                        <img src="https://i.ibb.co/8Y1KHBs/vnvnclogonew.png" alt="VNVNC" 
+                            class="w-full relative z-10">
+                    </div>
+                </div>
+                
+                <!-- Video Container -->
+                <div class="relative rounded-2xl overflow-hidden group">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/40 z-10"></div>
+                    
+                    <!-- Border Glow -->
+                    <div class="absolute inset-0 rounded-2xl border border-primary-400/20 z-20
+                        group-hover:border-primary-400/40 transition-colors duration-500"></div>
+                    
+                    <!-- Video Element -->
+                    <video 
+                        id="promoVideo"
+                        class="w-full aspect-video object-cover transform scale-[1.01] group-hover:scale-[1.02] transition-transform duration-700"
+                        autoplay 
+                        loop 
+                        muted 
+                        playsinline 
+                        preload="auto"
+                        poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+                        <source src="assets/promo-video-vnvnc.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="max-w-3xl mx-auto mb-24">
+                <div class="relative rounded-2xl overflow-hidden group">
+                    <div class="absolute -inset-1 bg-primary-400/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                    <div class="relative bg-black/40 rounded-2xl overflow-hidden backdrop-blur-sm border border-white/10 
+                        group-hover:border-primary-400/30 transition-all duration-500 shadow-glass p-8">
+                        
+                        <p class="text-lg text-white/80 leading-relaxed mb-8">
+                            Мы верим, что ночь – это не время сна, а время жить. "Виновница" — это вот уже 7 лет наш ответ на скучные вечера, место, где собираются друзья, чтобы слушать лучшие треки и создавать общие воспоминания.
+                        </p>
+                        <p class="text-lg text-white/80 leading-relaxed mb-8">
+                            Наш саунд — всегда топ, коктейли — бомба, а публика — самая крутая в городе.
+                        </p>
+                        <div class="flex flex-col items-center">
+                            <p class="text-lg text-white/80 leading-relaxed mb-6">
+                                Мы создали это место для тех, кто не боится танцевать до рассвета, ценит хорошую компанию и неповторимую атмосферу.
+                            </p>
+                            <div class="inline-flex items-center gap-2 text-primary-400 font-medium text-lg">
+                                Готов стать частью нашей истории?
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" 
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 12h14m-7-7 7 7-7 7"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Section -->
+            <section class="mb-24">
+                <h2 class="text-4xl font-bold text-center mb-16">
+                    <span class="relative inline-block">
+                        Фотоотчеты из нашего сообщества
+                        <a href="https://vk.com/vnvnc_spb" class="inline-flex items-center gap-2 text-primary-400 hover:text-primary-400/80 transition-colors">
+                            VK
+                            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M15.07 2H8.93C3.33 2 2 3.33 2 8.93v6.14C2 20.67 3.33 22 8.93 22h6.14c5.6 0 6.93-1.33 6.93-6.93V8.93C22 3.33 20.67 2 15.07 2z"/>
+                            </svg>
+                        </a>
+                        <div class="absolute -inset-x-8 -bottom-4 h-px bg-gradient-to-r from-transparent via-primary-400 to-transparent opacity-70"></div>
+                    </span>
+                </h2>
+                <div id="vk-gallery" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <!-- Gallery will be loaded here -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="path_to_vk_gallery_script.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="https://unpkg.com/@samisalami/flip-board/dist/flip-board.min.js"></script>
+    <style>
+        .flip-board {
+            display: inline-flex;
+            gap: 3px;
+            background: rgba(20, 20, 25, 0.8);
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .flip-letter {
+            display: inline-flex;
+            position: relative;
+            width: 1em;
+            height: 2em;
+            background: rgb(15, 15, 20);
+            perspective: 1000px;
+            overflow: hidden;
+            border-radius: 3px;
+            box-shadow: 
+                inset 0 2px 2px rgba(255, 255, 255, 0.05),
+                0 2px 4px rgba(0, 0, 0, 0.3);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flip-letter .top,
+        .flip-letter .bottom {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            background: rgb(15, 15, 20);
+            color: rgb(140, 119, 245);
+            font-weight: 500;
+            text-align: center;
+            transform-style: preserve-3d;
+            transition: transform 0.15s cubic-bezier(0.4, 0.0, 0.2, 1);
+            backface-visibility: hidden;
+            border: 1px solid rgba(140, 119, 245, 0.15);
+            text-transform: lowercase;
+            font-size: 1.24em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flip-letter.hidden-cell {
+            display: none;
+        }
+
+        .flip-letter.empty .top,
+        .flip-letter.empty .bottom {
+            color: rgba(140, 119, 245, 0.15);
+            border-color: rgba(140, 119, 245, 0.15);
+        }
+
+        @keyframes flipDown {
+            0% { transform: rotateX(0); }
+            100% { transform: rotateX(-90deg); }
+        }
+
+        @keyframes flipUp {
+            0% { transform: rotateX(90deg); }
+            100% { transform: rotateX(0); }
+        }
+
+        .logo-glow {
+            position: relative;
+        }
+        .logo-glow::before {
+            content: '';
+            position: absolute;
+            inset: -50%;
+            background: radial-gradient(circle at center, 
+                rgba(140, 119, 245, 0.4), 
+                rgba(234, 132, 88, 0.3), 
+                transparent 70%);
+            filter: blur(25px);
+            mix-blend-mode: screen;
+            animation: colorShift 8s ease-in-out infinite;
+            transform: scale(1.5);
+        }
+        @keyframes colorShift {
+            0%, 100% { 
+                background: radial-gradient(circle at center, 
+                    rgba(140, 119, 245, 0.4), 
+                    rgba(140, 119, 245, 0.2), 
+                    transparent 70%); 
+            }
+            33% { 
+                background: radial-gradient(circle at center, 
+                    rgba(234, 132, 88, 0.4), 
+                    rgba(234, 132, 88, 0.2), 
+                    transparent 70%); 
+            }
+            66% { 
+                background: radial-gradient(circle at center, 
+                    rgba(236, 72, 153, 0.4), 
+                    rgba(236, 72, 153, 0.2), 
+                    transparent 70%); 
+            }
+        }
+
+        .logo-glow img {
+            filter: brightness(1.1) drop-shadow(0 0 20px rgba(140, 119, 245, 0.5));
+            will-change: filter, transform;
+            animation: logoGlow 8s ease-in-out infinite;
+        }
+
+        @keyframes logoGlow {
+            0%, 100% { 
+                filter: brightness(1.1) drop-shadow(0 0 20px rgba(140, 119, 245, 0.5));
+            }
+            33% { 
+                filter: brightness(1.1) drop-shadow(0 0 20px rgba(234, 132, 88, 0.5));
+            }
+            66% { 
+                filter: brightness(1.1) drop-shadow(0 0 20px rgba(236, 72, 153, 0.5));
+            }
+        }
+    </style>
+    <script>
+        // Load head content
+        fetch('/components/head.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('head-content').innerHTML = html;
+            });
+
+        const phrases = [
+            "место твоей силы",
+            "база честного движа",
+            "дом крутых людей",
+            "мир твоей свободы",
+            "территория вайба",
+            "танцы до рассвета",
+            "место твоих выходных",
+            "дом ночных авантюр",
+            "база крутого саунда",
+            "зона твоей ночи",
+            "просто база",
+            "винка ехала"
+        ];
+
+        const STATIC_SIZE = 19;
+        const MAX_SIZE = 25;
+
+        class FlipLetter {
+            constructor(container) {
+                this.element = document.createElement('div');
+                this.element.className = 'flip-letter empty';
+                this.topHalf = document.createElement('div');
+                this.bottomHalf = document.createElement('div');
+                this.topHalf.className = 'top';
+                this.bottomHalf.className = 'bottom';
+                this.element.appendChild(this.topHalf);
+                this.element.appendChild(this.bottomHalf);
+                container.appendChild(this.element);
+
+                // Initialize with empty state (just empty space, no dash)
+                this.topHalf.textContent = ' ';
+                this.bottomHalf.textContent = ' ';
+            }
+
+            show() {
+                this.element.classList.remove('hidden-cell');
+            }
+
+            hide() {
+                this.element.classList.add('hidden-cell');
+            }
+
+            flip(to) {
+                return new Promise(resolve => {
+                    const isEmpty = to === ' ' || to === '';
+                    
+                    if (isEmpty) {
+                        this.element.classList.add('empty');
+                        this.topHalf.textContent = ' ';
+                        this.bottomHalf.textContent = ' ';
+                        resolve();
+                        return;
+                    }
+
+                    this.element.classList.remove('empty');
+                    this.element.classList.add('flipping');
+                    
+                    setTimeout(() => {
+                        this.topHalf.textContent = to;
+                        this.bottomHalf.textContent = to;
+                        
+                        setTimeout(() => {
+                            this.element.classList.remove('flipping');
+                            resolve();
+                        }, 100);
+                    }, 100);
+                });
+            }
+        }
+
+        class FlipBoard {
+            constructor(container) {
+                this.boardElement = document.createElement('div');
+                this.boardElement.className = 'flip-board';
+                container.appendChild(this.boardElement);
+                
+                this.letters = [];
+                this.currentText = '—'.repeat(MAX_SIZE);
+                this.visibleCells = STATIC_SIZE;
+                
+                // Create all possible cells
+                for (let i = 0; i < MAX_SIZE; i++) {
+                    const letter = new FlipLetter(this.boardElement);
+                    this.letters.push(letter);
+                    
+                    // Initially show only static cells
+                    if (i >= STATIC_SIZE) {
+                        letter.hide();
+                    }
+                }
+            }
+
+            async setText(text) {
+                // Only expand if text is longer than static size
+                const requiredCells = text.length > STATIC_SIZE ? text.length : STATIC_SIZE;
+                const finalCells = Math.min(requiredCells, MAX_SIZE);
+                
+                // Show/hide cells as needed
+                if (finalCells > this.visibleCells) {
+                    // Expand
+                    for (let i = this.visibleCells; i < finalCells; i++) {
+                        this.letters[i].show();
+                    }
+                } else if (finalCells < this.visibleCells && finalCells > STATIC_SIZE) {
+                    // Contract, but never below STATIC_SIZE
+                    for (let i = finalCells; i < this.visibleCells; i++) {
+                        this.letters[i].hide();
+                    }
+                } else if (this.visibleCells > STATIC_SIZE && finalCells <= STATIC_SIZE) {
+                    // Contract back to static size
+                    for (let i = STATIC_SIZE; i < this.visibleCells; i++) {
+                        this.letters[i].hide();
+                    }
+                }
+                this.visibleCells = Math.max(finalCells, STATIC_SIZE);
+
+                // Center the text in the visible cells
+                const paddedText = text.padStart(Math.floor((this.visibleCells + text.length) / 2), ' ')
+                                     .padEnd(this.visibleCells, ' ');
+                
+                // Flip letters with a slight cascade effect
+                const flipPromises = [];
+                for (let i = 0; i < this.visibleCells; i++) {
+                    if (this.currentText[i] !== paddedText[i]) {
+                        const delay = i * 35;
+                        flipPromises.push(
+                            new Promise(resolve => {
+                                setTimeout(() => {
+                                    this.letters[i].flip(paddedText[i]).then(resolve);
+                                }, delay);
+                            })
+                        );
+                    }
+                }
+                
+                await Promise.all(flipPromises);
+                this.currentText = paddedText;
+            }
+        }
+
+        const container = document.getElementById('rotating-text');
+        const board = new FlipBoard(container);
+        let currentIndex = 0;
+
+        async function updateText() {
+            await board.setText(phrases[currentIndex]);
+            currentIndex = (currentIndex + 1) % phrases.length;
+            setTimeout(updateText, 3000);
+        }
+
+        // Initialize with empty state (spaces instead of dashes)
+        board.setText(' '.repeat(STATIC_SIZE)).then(() => {
+            setTimeout(updateText, 1000);
+        });
+
+        // Initialize VK Gallery
+        $(document).ready(function() {
+            $('#vk-gallery').EmbedVkGallery({
+                // Configure gallery options here
+            });
+        });
+    </script>
+</body>
+</html> 

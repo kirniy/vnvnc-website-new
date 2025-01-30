@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VNVNC | Конюшенная 2В</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.1/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            400: 'rgb(140, 119, 245)'
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes disco-hover {
+            0%, 100% { transform: rotate(10deg) scale(1.1); }
+            50% { transform: rotate(-5deg) scale(1.15); }
+        }
+        .disco-ball-hover:hover {
+            animation-play-state: running !important;
+        }
+    </style>
+    <!-- Include head component -->
+    <div id="head-content"></div>
+  </head>
+<body class="bg-black text-white min-h-screen relative overflow-x-hidden">
+    <!-- Background -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(140,119,245,0.05)_0%,transparent_70%)]"></div>
+    </div>
+
+    <!-- Navbar -->
+    <div id="navbar"></div>
+
+    <!-- Main Content -->
+    <main class="min-h-screen relative overflow-hidden pt-20">
+        <div class="container mx-auto px-4">
+            <!-- Main Headline -->
+            <div class="pt-32 pb-16 text-center relative">
+                <!-- Hero background glow -->
+                <div class="absolute inset-0">
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180%] h-[180%]
+                        bg-[radial-gradient(ellipse_at_center,rgba(140,119,245,0.15)_0%,rgba(140,119,245,0.1)_25%,rgba(140,119,245,0.05)_50%,transparent_80%)]
+                        mix-blend-screen"></div>
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%]
+                        bg-[radial-gradient(ellipse_at_center,rgba(140,119,245,0.3)_0%,rgba(140,119,245,0.15)_30%,transparent_60%)]
+                        blur-[64px] mix-blend-screen"></div>
+                </div>
+
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 text-center tracking-tight relative z-10">
+                    Пространство твоей <span class="text-primary-400 italic">свободы</span>
+                </h1>
+
+                <!-- Subheadline -->
+                <p class="text-lg text-white/80 mb-8 tracking-wide font-light">
+                    Сердце <span class="text-primary-400/90 font-medium">Конюшенной</span> площади
+                </p>
+
+                <!-- CTA Button -->
+                <div class="flex justify-center">
+                    <button class="group relative hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
+                        <div class="absolute -inset-1 bg-primary-400/30 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                        <div class="relative px-12 py-3 rounded-xl text-white font-medium
+                            backdrop-blur-sm border border-primary-400/30 shadow-glass-primary
+                            group-hover:border-primary-400/50 transition-all duration-300">
+                            <div class="absolute inset-0 rounded-xl glass-gradient-primary opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+                            <div class="absolute inset-0 rounded-xl bg-primary-400/10"></div>
+                            <span class="relative">БИЛЕТЫ</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3D Objects Container -->
+            <div class="relative z-0">
+                <!-- Metal Bottle -->
+                <div class="absolute left-0 top-[25px] w-[240px] h-[240px] transform -translate-x-8" id="bottle-container">
+                    <img src="assets/cocktail1.png" alt="Cocktail" 
+                        class="w-full h-full object-contain drop-shadow-2xl" id="bottle">
+                </div>
+                
+                <!-- Cocktail -->
+                <div class="absolute right-0 top-[45px] w-[200px] h-[200px] transform translate-x-8" id="cocktail-container">
+                    <img src="assets/metal-margarita-cocktail.png" alt="Cocktail" 
+                        class="w-full h-full object-contain drop-shadow-2xl" id="cocktail">
+                </div>
+            </div>
+
+            <!-- Events Section -->
+            <section class="relative z-10">
+                <h2 class="text-4xl font-bold text-center mb-16">
+                    <span class="relative inline-block">
+                        <img src="assets/disco-ball.png" alt="" class="w-12 h-12 inline-block mr-3 -mt-1 transition-all duration-300 hover:scale-110 hover:rotate-[10deg] origin-bottom disco-ball-hover" 
+                            style="animation: disco-hover 2s ease-in-out infinite paused">
+                        Афиша
+                    </span>
+                </h2>
+                <p class="text-center text-white/60 text-lg mb-16">Каждый уикенд — новая история</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Event Card 1 -->
+                    <div class="event-card rounded-2xl overflow-hidden group">
+                        <div class="absolute -inset-1 bg-primary-400/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                        <div class="relative bg-black/40 rounded-2xl overflow-hidden backdrop-blur-sm border border-white/10 
+                            group-hover:border-primary-400/30 transition-all duration-500 shadow-glass">
+                            <div class="aspect-[4/3] overflow-hidden">
+                                <img src="https://i.ibb.co/k1PRf9Y/photo-2025-01-21-00-24-39.jpg" alt="VNVNC | FRIENDS FRIDAY" 
+                                    class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-60"></div>
+                            </div>
+                            
+                            <div class="p-6 relative">
+                                <div class="flex justify-between items-center mb-4">
+                                    <span class="text-primary-400 font-medium">24 января</span>
+                                    <span class="text-white/60">23:00 - 07:00</span>
+                                </div>
+                                
+                                <h3 class="text-xl font-bold mb-3 text-white group-hover:text-primary-400 transition-colors">
+                                    VNVNC | FRIENDS FRIDAY
+                                </h3>
+                                
+                                <p class="text-white/60 text-sm mb-6 line-clamp-3">
+                                    Как вам погодка? Кажется, весна решила прийти раньше времени и подарить нам солнце и тёплую атмосферу. А что может быть лучше в такие дни, чем заглянуть на пару коктейлей к нам?
+                                </p>
+                                
+                                <div class="flex items-center justify-between pt-4 border-t border-white/10">
+                                    <div>
+                                        <div class="text-primary-400 font-medium">
+                                            от 500 ₽
+                                        </div>
+                                        <div class="text-sm text-white/40">
+                                            FC/DC 18+
+                                        </div>
+                                    </div>
+                                    
+                                    <button class="group/btn relative">
+                                        <div class="absolute -inset-1 bg-primary-400/20 rounded-xl blur-xl opacity-0 group-hover/btn:opacity-100 transition-all duration-500"></div>
+                                        <div class="px-6 py-2 rounded-xl text-white text-sm font-medium inline-flex items-center gap-2 
+                                            glass-gradient-primary backdrop-blur-sm border border-primary-400/20 shadow-glass-primary
+                                            group-hover/btn:border-primary-400/30 transition-all duration-300 relative">
+                                            <div class="absolute inset-0 rounded-xl bg-primary-400/10"></div>
+                                            <span class="relative">Билеты</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 relative transition-transform duration-300 group-hover/btn:translate-x-1" 
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M5 12h14m-7-7 7 7-7 7"/>
+                                            </svg>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 2 -->
+                    <div class="event-card rounded-2xl overflow-hidden group">
+                        <div class="absolute -inset-1 bg-primary-400/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                        <div class="relative bg-black/40 rounded-2xl overflow-hidden backdrop-blur-sm border border-white/10 
+                            group-hover:border-primary-400/30 transition-all duration-500 shadow-glass">
+                            <div class="aspect-[4/3] overflow-hidden">
+                                <img src="https://i.ibb.co/kM11Nrq/photo-2025-01-21-00-24-34.jpg" alt="VNVNC | WEEKEND VIBES" 
+                                    class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-60"></div>
+                            </div>
+                            
+                            <div class="p-6 relative">
+                                <div class="flex justify-between items-center mb-4">
+                                    <span class="text-primary-400 font-medium">27 января</span>
+                                    <span class="text-white/60">23:00 - 07:00</span>
+                                </div>
+                                
+                                <h3 class="text-xl font-bold mb-3 text-white group-hover:text-primary-400 transition-colors">
+                                    VNVNC | WEEKEND VIBES
+                                </h3>
+                                
+                                <p class="text-white/60 text-sm mb-6 line-clamp-3">
+                                    В эту субботу мы ждём вас в наших стенах: музыка резидентов, уютная терраса и вы— всё как всегда. Специальные гости: DIEDARA, KAA, FOXY, SCANDIII
+                                </p>
+                                
+                                <div class="flex items-center justify-between pt-4 border-t border-white/10">
+                                    <div>
+                                        <div class="text-primary-400 font-medium">
+                                            от 700 ₽
+                                        </div>
+                                        <div class="text-sm text-white/40">
+                                            FC/DC 18+
+                                        </div>
+                                    </div>
+                                    
+                                    <button class="group/btn relative">
+                                        <div class="absolute -inset-1 bg-primary-400/20 rounded-xl blur-xl opacity-0 group-hover/btn:opacity-100 transition-all duration-500"></div>
+                                        <div class="px-6 py-2 rounded-xl text-white text-sm font-medium inline-flex items-center gap-2 
+                                            glass-gradient-primary backdrop-blur-sm border border-primary-400/20 shadow-glass-primary
+                                            group-hover/btn:border-primary-400/30 transition-all duration-300 relative">
+                                            <div class="absolute inset-0 rounded-xl bg-primary-400/10"></div>
+                                            <span class="relative">Билеты</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 relative transition-transform duration-300 group-hover/btn:translate-x-1" 
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M5 12h14m-7-7 7 7-7 7"/>
+                                            </svg>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 3 -->
+                    <div class="event-card rounded-2xl overflow-hidden group">
+                        <div class="absolute -inset-1 bg-primary-400/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                        <div class="relative bg-black/40 rounded-2xl overflow-hidden backdrop-blur-sm border border-white/10 
+                            group-hover:border-primary-400/30 transition-all duration-500 shadow-glass">
+                            <div class="aspect-[4/3] overflow-hidden">
+                                <img src="https://i.ibb.co/93mz8HR/photo-2025-01-21-00-24-59.jpg" alt="VNVNC | SPECIAL NIGHT" 
+                                    class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-60"></div>
+                            </div>
+                            
+                            <div class="p-6 relative">
+                                <div class="flex justify-between items-center mb-4">
+                                    <span class="text-primary-400 font-medium">31 января</span>
+                                    <span class="text-white/60">23:00 - 07:00</span>
+                                </div>
+                                
+                                <h3 class="text-xl font-bold mb-3 text-white group-hover:text-primary-400 transition-colors">
+                                    VNVNC | SPECIAL NIGHT
+                                </h3>
+                                
+                                <p class="text-white/60 text-sm mb-6 line-clamp-3">
+                                    Подпишись на ТГ-канал клуба, покажи кассиру и получи бесплатный коктейль. С собой оригиналы документов удостоверяющие личность.
+                                </p>
+                                
+                                <div class="flex items-center justify-between pt-4 border-t border-white/10">
+                                    <div>
+                                        <div class="text-primary-400 font-medium">
+                                            от 1000 ₽
+                                        </div>
+                                        <div class="text-sm text-white/40">
+                                            FC/DC 18+
+                                        </div>
+                                    </div>
+                                    
+                                    <button class="group/btn relative">
+                                        <div class="absolute -inset-1 bg-primary-400/20 rounded-xl blur-xl opacity-0 group-hover/btn:opacity-100 transition-all duration-500"></div>
+                                        <div class="px-6 py-2 rounded-xl text-white text-sm font-medium inline-flex items-center gap-2 
+                                            glass-gradient-primary backdrop-blur-sm border border-primary-400/20 shadow-glass-primary
+                                            group-hover/btn:border-primary-400/30 transition-all duration-300 relative">
+                                            <div class="absolute inset-0 rounded-xl bg-primary-400/10"></div>
+                                            <span class="relative">Билеты</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 relative transition-transform duration-300 group-hover/btn:translate-x-1" 
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M5 12h14m-7-7 7 7-7 7"/>
+                                            </svg>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <!-- Scripts -->
+    <script src="js/components.js"></script>
+    <script src="js/navigation.js"></script>
+    <script>
+        // Physics-based spinning animation
+        class SpinningObject {
+            constructor(element, startRotation = 0) {
+                this.element = element;
+                this.rotation = startRotation;
+                this.initialRotation = startRotation; // Store initial rotation
+                this.angularVelocity = 0;
+                this.friction = 0.94; // Increased friction
+                this.springStrength = 0.05; // Stronger spring force
+                this.maxVelocity = 20;
+                this.isSpinning = false;
+                this.lastMouseX = 0;
+                this.lastMouseY = 0;
+                this.rect = element.getBoundingClientRect();
+                this.centerX = this.rect.left + this.rect.width / 2;
+                this.centerY = this.rect.top + this.rect.height / 2;
+                this.lastForceDirection = 0;
+            }
+
+            applyForce(mouseX, mouseY) {
+                const dx = mouseX - this.centerX;
+                const dy = mouseY - this.centerY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < 200) { // Reduced influence radius
+                    const mouseVelocityX = mouseX - this.lastMouseX;
+                    
+                    // Base force calculation
+                    const force = (mouseVelocityX / distance) * 1.2; // Reduced base multiplier
+                    
+                    if (Math.abs(this.angularVelocity) > 0.1) {
+                        // Preserve momentum direction
+                        const currentDirection = Math.sign(this.angularVelocity);
+                        
+                        // Only add force if it's in the same direction as current motion
+                        // or if the force is strong enough to overcome current motion
+                        if (Math.sign(force) === currentDirection || Math.abs(force) > Math.abs(this.angularVelocity)) {
+                            this.lastForceDirection = Math.sign(force);
+                            this.angularVelocity += Math.abs(force) * 0.7 * currentDirection;
+                        }
+                    } else {
+                        // For initial movement or very slow speeds
+                        if (Math.abs(force) > 0.1) {
+                            this.lastForceDirection = Math.sign(force);
+                            this.angularVelocity += force;
+                        }
+                    }
+                    
+                    this.angularVelocity = Math.min(Math.max(this.angularVelocity, -this.maxVelocity), this.maxVelocity);
+                    this.isSpinning = true;
+                }
+
+                this.lastMouseX = mouseX;
+                this.lastMouseY = mouseY;
+            }
+
+            update() {
+                if (Math.abs(this.angularVelocity) > 0.01 || Math.abs(this.rotation - this.initialRotation) > 0.01) {
+                    this.isSpinning = true;
+                    
+                    // Apply stronger friction when far from initial position
+                    const distanceFromInitial = Math.abs(this.rotation - this.initialRotation);
+                    const dynamicFriction = this.friction * (1 - Math.min(distanceFromInitial / 180, 0.1));
+                    this.angularVelocity *= dynamicFriction;
+
+                    // Apply spring force more aggressively
+                    const springForce = (this.initialRotation - this.rotation) * this.springStrength;
+                    // Apply spring force at higher velocities when far from initial position
+                    if (Math.abs(this.angularVelocity) < 2 || distanceFromInitial > 45) {
+                        this.angularVelocity += springForce;
+                    }
+
+                    this.rotation += this.angularVelocity;
+                    
+                    // Scale effect based on distance from initial position
+                    const speed = Math.abs(this.angularVelocity) / this.maxVelocity;
+                    const distanceScale = Math.min(distanceFromInitial / 180, 0.04);
+                    const scale = 1 + Math.min(speed * 0.03 + distanceScale, 0.04);
+                    this.element.style.transform = `rotate(${this.rotation}deg) scale(${scale})`;
+                } else {
+                    this.isSpinning = false;
+                    this.angularVelocity = 0;
+                    this.rotation = this.initialRotation;
+                    this.element.style.transform = `rotate(${this.initialRotation}deg) scale(1)`;
+                }
+            }
+        }
+
+        // Initialize spinning objects
+        const bottle = new SpinningObject(document.getElementById('bottle'), -15);
+        const cocktail = new SpinningObject(document.getElementById('cocktail'), 15);
+
+        // Animation loop
+        function animate() {
+            bottle.update();
+            cocktail.update();
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Track mouse movement
+        document.addEventListener('mousemove', (e) => {
+            bottle.applyForce(e.clientX, e.clientY);
+            cocktail.applyForce(e.clientX, e.clientY);
+        });
+
+        // Update positions on scroll
+        window.addEventListener('scroll', () => {
+            bottle.rect = bottle.element.getBoundingClientRect();
+            bottle.centerX = bottle.rect.left + bottle.rect.width / 2;
+            bottle.centerY = bottle.rect.top + bottle.rect.height / 2;
+            
+            cocktail.rect = cocktail.element.getBoundingClientRect();
+            cocktail.centerX = cocktail.rect.left + cocktail.rect.width / 2;
+            cocktail.centerY = cocktail.rect.top + cocktail.rect.height / 2;
+        });
+    </script>
+  </body>
+</html>
