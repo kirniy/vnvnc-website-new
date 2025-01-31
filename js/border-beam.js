@@ -37,10 +37,21 @@ class BorderBeam {
             after:animate-border-beam
             after:[animation-delay:var(--delay)]
             after:[background:linear-gradient(to_left,var(--color-from),var(--color-to),transparent)]
-            after:[offset-anchor:calc(var(--anchor)*1%)_50%]
-            after:[offset-path:rect(0_auto_auto_0_round_calc(var(--size)*1px))]
+            after:[motion-path:path('M0,0 L100,0 L100,100 L0,100 L0,0')]
+            after:[motion-offset:0%]
+            after:[motion-rotation:0deg]
             ${this.className}
         `.replace(/\s+/g, ' ').trim();
+
+        // Add keyframe animation style
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes border-beam {
+                0% { motion-offset: 0%; }
+                100% { motion-offset: 100%; }
+            }
+        `;
+        document.head.appendChild(style);
 
         return beam;
     }

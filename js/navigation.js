@@ -7,11 +7,13 @@ const mainContent = document.querySelector('main');
 // Function to cleanup page-specific effects
 function cleanupPageEffects() {
     console.log('🧹 Cleaning up page effects...');
-    if (window._flipboardInterval) {
-        console.log('  - Clearing flipboard interval');
-        clearInterval(window._flipboardInterval);
-        window._flipboardInterval = null;
+    
+    // Use about page cleanup if available
+    if (window.cleanupAboutPage) {
+        window.cleanupAboutPage();
     }
+    
+    // Clean up animations
     if (window._animationLoopRunning) {
         console.log('  - Stopping animation loop');
         window._animationLoopRunning = false;
@@ -215,12 +217,33 @@ async function loadPage(url) {
         // Update URL and navigation state
         updatePage(url);
         
-        // Reinitialize animations for the new content
-        console.log('  - Starting reinitialization');
-        // Initialize flipboard first if on about page
-        if (url.includes('about.html') && typeof initializeFlipboard === 'function') {
-            console.log('  - Initializing flipboard');
-            initializeFlipboard();
+        // Initialize page-specific features
+        if (url.includes('about.html')) {
+            // Initialize flipboard
+            if (typeof initializeFlipboard === 'function') {
+                console.log('  - Initializing flipboard');
+                initializeFlipboard();
+            }
+            
+            // Initialize border beam
+            try {
+                const { BorderBeam } = await import('./border-beam.js');
+                window.borderBeam = new BorderBeam({
+                    size: 300,
+                    duration: 12,
+                    delay: 0,
+                    colorFrom: "#8C77F5",
+                    colorTo: "#EA8458",
+                    borderWidth: 2
+                });
+                
+                const container = document.getElementById('video-border-beam');
+                if (container) {
+                    window.borderBeam.mount(container);
+                }
+            } catch (error) {
+                console.error('Error initializing border beam:', error);
+            }
         }
         
         // Then initialize animations

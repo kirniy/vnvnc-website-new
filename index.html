@@ -27,9 +27,8 @@
                             '50%': { transform: 'translateY(-20px)' },
                         },
                         'border-beam': {
-                            '100%': {
-                                'offset-distance': '100%'
-                            }
+                            '0%': { 'motion-offset': '0%' },
+                            '100%': { 'motion-offset': '100%' }
                         }
                     }
                 }
@@ -37,6 +36,12 @@
         }
     </script>
     <style>
+        @property --border-beam-progress {
+            syntax: '<number>';
+            initial-value: 0;
+            inherits: false;
+        }
+
         @keyframes disco-hover {
             0%, 100% { transform: rotate(10deg) scale(1.1); }
             50% { transform: rotate(-5deg) scale(1.15); }

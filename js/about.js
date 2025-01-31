@@ -194,6 +194,27 @@ function initializeFlipboard() {
 // Export the initialization function for navigation.js to use
 window.initializeFlipboard = initializeFlipboard;
 
+// Cleanup function for border beam
+window.cleanupAboutPage = function() {
+    console.log('🧹 Cleaning up about page effects...');
+    
+    // Clear flipboard intervals/timeouts
+    if (window._flipboardInterval) {
+        clearInterval(window._flipboardInterval);
+        window._flipboardInterval = null;
+    }
+    if (window._flipboardTimeout) {
+        clearTimeout(window._flipboardTimeout);
+        window._flipboardTimeout = null;
+    }
+    
+    // Clean up border beam
+    if (window.borderBeam) {
+        window.borderBeam.destroy();
+        window.borderBeam = null;
+    }
+};
+
 // Initialize when the script loads if we're on the about page
 console.log('🔄 Checking document state:', document.readyState);
 if (window.location.pathname.includes('about.html')) {

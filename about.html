@@ -444,7 +444,7 @@
         try {
             const { BorderBeam } = await import('./js/border-beam.js');
             
-            const borderBeam = new BorderBeam({
+            window.borderBeam = new BorderBeam({
                 size: 300,
                 duration: 12,
                 delay: 0,
@@ -455,7 +455,7 @@
             
             const container = document.getElementById('video-border-beam');
             if (container) {
-                borderBeam.mount(container);
+                window.borderBeam.mount(container);
             }
         } catch (error) {
             console.error('Error initializing border beam:', error);
