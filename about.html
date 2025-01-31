@@ -75,25 +75,16 @@
                 </div>
                 
                 <!-- Video Container -->
-                <div class="relative rounded-2xl overflow-hidden group">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/40 z-10"></div>
-                    
-                    <!-- Border Glow -->
-                    <div class="absolute inset-0 rounded-2xl border border-primary-400/20 z-20
-                        group-hover:border-primary-400/40 transition-colors duration-500"></div>
-                    
-                    <!-- Video Element -->
+                <div class="relative w-full aspect-video rounded-2xl overflow-hidden">
+                    <div class="absolute inset-0 rounded-2xl overflow-hidden" id="video-border-beam"></div>
                     <video 
-                        id="promoVideo"
-                        class="w-full aspect-video object-cover transform scale-[1.01] group-hover:scale-[1.02] transition-transform duration-700"
+                        class="w-full h-full object-cover rounded-2xl"
+                        src="assets/promo-video-vnvnc.mp4" 
                         autoplay 
                         loop 
                         muted 
-                        playsinline 
-                        preload="auto"
-                        poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
-                        <source src="assets/promo-video-vnvnc.mp4" type="video/mp4">
-                    </video>
+                        playsinline
+                    ></video>
                 </div>
             </div>
 
@@ -448,6 +439,27 @@
                 // Configure gallery options here
             });
         });
+    </script>
+    <script type="module">
+        try {
+            const { BorderBeam } = await import('./js/border-beam.js');
+            
+            const borderBeam = new BorderBeam({
+                size: 300,
+                duration: 12,
+                delay: 0,
+                colorFrom: "#8C77F5",  // Using your primary color
+                colorTo: "#EA8458",    // Using your accent color
+                borderWidth: 2
+            });
+            
+            const container = document.getElementById('video-border-beam');
+            if (container) {
+                borderBeam.mount(container);
+            }
+        } catch (error) {
+            console.error('Error initializing border beam:', error);
+        }
     </script>
 </body>
 </html> 

@@ -49,6 +49,7 @@ const filesToCopy = [
     'js/about.js',
     'js/wavy-background.js',
     'js/spinning.js',
+    'js/border-beam.js',
     'assets/cocktail1.png',
     'assets/disco-ball.png',
     'assets/metal-margarita-cocktail.png',
